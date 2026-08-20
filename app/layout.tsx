@@ -22,8 +22,13 @@ export const metadata: Metadata = {
     card: "summary_large_image",
   },
   // 구글은 lifebanjang.com 도메인 속성으로 자동 커버되므로 네이버만 등록한다.
-  // ⚠️ 배포 후 네이버 서치어드바이저에 등록하고 발급받은 코드를 여기에 넣을 것.
-  //    다른 노트의 코드를 그대로 쓰면 소유확인이 실패한다.
+  // 아래 값은 health.lifebanjang.com 전용으로 발급받은 것 — 다른 노트의 코드를
+  // 복사해 쓰면 소유확인이 실패한다.
+  verification: {
+    other: {
+      "naver-site-verification": "3ebf2346d6f670f64270bc0fe8d71869af566cc0",
+    },
+  },
 };
 
 export default function RootLayout({
