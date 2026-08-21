@@ -259,6 +259,11 @@ export default function RatePage() {
           <li><Link href="/calc/cap" className="text-accent underline-offset-4 hover:underline">본인부담상한제 환급 계산기 →</Link></li>
           <li><Link href="/calc/checkup" className="text-accent underline-offset-4 hover:underline">건강검진 대상 조회 →</Link></li>
           <li><Link href="/guide/covered-vs-not" className="text-accent underline-offset-4 hover:underline">급여와 비급여, 영수증 읽는 법 →</Link></li>
+          {/* 병원비를 내는 쪽과 보험료를 내는 쪽. 직장 4대보험 계산은 급여노트 몫이다. */}
+          <li>
+            <a href="https://salary.lifebanjang.com/calc/insurance" className="text-accent underline-offset-4 hover:underline">4대보험료 계산기 (급여노트) →</a>
+            <span className="block text-sm text-muted">매달 급여에서 빠지는 건강보험료가 얼마인지. 이 계산기가 다루는 병원비와는 반대쪽입니다.</span>
+          </li>
         </ul>
       </section>
     </div>

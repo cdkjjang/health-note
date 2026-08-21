@@ -228,6 +228,12 @@ export default function DependentPage() {
           <li><Link href="/calc/cap" className="text-accent underline-offset-4 hover:underline">본인부담상한제 환급 계산기 →</Link></li>
           <li><Link href="/calc/checkup" className="text-accent underline-offset-4 hover:underline">건강검진 대상 조회 →</Link></li>
           <li><Link href="/guide/dependent-lost" className="text-accent underline-offset-4 hover:underline">피부양자 자격을 잃었을 때 →</Link></li>
+          {/* 자격이 안 되면 지역가입자 아니면 임의계속가입이다. 임의계속 보험료
+              계산은 퇴사노트 몫이라 여기서 다시 계산하지 않고 링크로 보낸다. */}
+          <li>
+            <a href="https://toesa.lifebanjang.com/calc/health" className="text-accent underline-offset-4 hover:underline">퇴사 후 건강보험료 계산기 (퇴사노트) →</a>
+            <span className="block text-sm text-muted">피부양자 자격이 안 된다면 임의계속가입을 검토합니다. 신청 기한이 있어 늦으면 못 씁니다.</span>
+          </li>
         </ul>
       </section>
     </div>
