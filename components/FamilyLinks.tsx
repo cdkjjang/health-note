@@ -21,6 +21,7 @@ const SITES = [
   { slug: "toesa", name: "퇴사노트", url: "https://toesa.lifebanjang.com", desc: "실업급여·수급자격·조기재취업수당" },
   { slug: "sangsok", name: "상속노트", url: "https://sangsok.lifebanjang.com", desc: "상속세·상속분·상속등기" },
   { slug: "health", name: "건강보험노트", url: "https://health.lifebanjang.com", desc: "피부양자·병원비 환급·건강검진" },
+  { slug: "hakjagum", name: "학자금노트", url: "https://hakjagum.lifebanjang.com", desc: "지원구간·국가장학금·학자금대출" },
 ];
 
 export default function FamilyLinks() {
