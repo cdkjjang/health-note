@@ -30,7 +30,15 @@ export default function AdSlot({ slot }: { slot: string }) {
   if (!ADSENSE_CLIENT) return null;
 
   return (
-    <div className="my-6" aria-label="광고">
+    // 높이를 미리 잡아 둔다. 광고 스크립트가 실행되며 0 -> 실제 크기로 늘어나면
+    // 아래 콘텐츠가 통째로 밀리는데(측정값: 모바일 375px), 그 순간 누르려던 것을
+    // 잘못 눌러 무효 클릭이 될 수 있다. 애드센스가 실제로 제재하는 항목이다.
+    // 280px은 responsive display 광고가 가장 흔히 채우는 300x250·336x280을 덮는 값.
+    // ⚠️ 승인 후 실제 게재 크기를 재서 이 값을 맞출 것.
+    //
+    // <aside>를 쓰는 이유: 역할 없는 <div>에 aria-label을 달면 접근성 검사에서
+    // '금지된 ARIA 속성'으로 걸린다. <aside>는 role=complementary라 이름을 받는다.
+    <aside className="my-6 min-h-[280px]" aria-label="광고">
       <ins
         className="adsbygoogle"
         style={{ display: "block" }}
@@ -39,6 +47,6 @@ export default function AdSlot({ slot }: { slot: string }) {
         data-ad-format="auto"
         data-full-width-responsive="true"
       />
-    </div>
+    </aside>
   );
 }
