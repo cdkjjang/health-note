@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import CalcGuides from "@/components/CalcGuides";
 import Link from "next/link";
 import DependentCalculator from "@/components/DependentCalculator";
 import AdSlot from "@/components/AdSlot";
@@ -236,6 +237,7 @@ export default function DependentPage() {
           </li>
         </ul>
       </section>
+      <CalcGuides calcHref="/calc/dependent" />
     </div>
   );
 }

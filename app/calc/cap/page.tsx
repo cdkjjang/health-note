@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import CalcGuides from "@/components/CalcGuides";
 import Link from "next/link";
 import CopayCapCalculator from "@/components/CopayCapCalculator";
 import AdSlot from "@/components/AdSlot";
@@ -244,6 +245,7 @@ export default function CapPage() {
           <li><Link href="/guide/covered-vs-not" className="text-accent underline-offset-4 hover:underline">급여와 비급여, 영수증 읽는 법 →</Link></li>
         </ul>
       </section>
+      <CalcGuides calcHref="/calc/cap" />
     </div>
   );
 }

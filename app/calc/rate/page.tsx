@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import CalcGuides from "@/components/CalcGuides";
 import Link from "next/link";
 import CopayRateCalculator from "@/components/CopayRateCalculator";
 import AdSlot from "@/components/AdSlot";
@@ -266,6 +267,7 @@ export default function RatePage() {
           </li>
         </ul>
       </section>
+      <CalcGuides calcHref="/calc/rate" />
     </div>
   );
 }

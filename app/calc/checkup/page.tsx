@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import CalcGuides from "@/components/CalcGuides";
 import Link from "next/link";
 import CheckupCalculator from "@/components/CheckupCalculator";
 import AdSlot from "@/components/AdSlot";
@@ -245,6 +246,7 @@ export default function CheckupPage() {
           <li><Link href="/guide/checkup-guide" className="text-accent underline-offset-4 hover:underline">건강검진 항목 읽는 법 →</Link></li>
         </ul>
       </section>
+      <CalcGuides calcHref="/calc/checkup" />
     </div>
   );
 }

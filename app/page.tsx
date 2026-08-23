@@ -86,7 +86,7 @@ export default function HomePage() {
           </Link>
         </div>
         <ul className="space-y-3">
-          {guides.slice(0, 5).map((g) => (
+          {guides.slice(0, 10).map((g) => (
             <li key={g.slug}>
               <div className="rounded-xl border border-border-soft bg-card p-4 shadow-sm transition-all hover:border-accent">
                 {/* 제목만 링크로 둔다 — 설명까지 앵커에 넣으면 본문 대부분이
