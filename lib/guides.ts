@@ -3,10 +3,11 @@ import { guides1 } from "./guides-1";
 import { guides2 } from "./guides-2";
 import { guides3 } from "./guides-3";
 import { guides4 } from "./guides-4";
+import { guides5 } from "./guides-5";
 
 export type { Guide, GuideSection } from "./guide-types";
 
-const rawGuides: Guide[] = [...guides1, ...guides2, ...guides3, ...guides4];
+const rawGuides: Guide[] = [...guides1, ...guides2, ...guides3, ...guides4, ...guides5];
 
 /**
  * related를 양방향으로 채운다.
@@ -37,10 +38,21 @@ function withReciprocalRelated(list: Guide[]): Guide[] {
     }
   }
 
+  // 상한에서 잘릴 때 늘 오래된 글만 남으면, 새로 쓴 글이 어느 목록에도
+  // 걸리지 않는다. 자동으로 붙이는 몫은 최신순으로 넣어 새 글이 먼저
+  // 자리를 잡게 한다. 원문에 직접 적은 큐레이션은 그대로 앞에 둔다.
+  const updatedOf = new Map(list.map((g) => [g.slug, g.updated]));
+
   return list.map((g) => {
     const extra = added.get(g.slug);
     if (!extra?.length) return g;
-    return { ...g, related: [...g.related, ...extra].slice(0, MAX_RELATED) };
+    const recentFirst = [...extra].sort((a, b) =>
+      (updatedOf.get(b) ?? "").localeCompare(updatedOf.get(a) ?? ""),
+    );
+    return {
+      ...g,
+      related: [...g.related, ...recentFirst].slice(0, MAX_RELATED),
+    };
   });
 }
 
