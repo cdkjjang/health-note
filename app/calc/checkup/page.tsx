@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import CalcGuides from "@/components/CalcGuides";
+import NextStep from "@/components/NextStep";
 import RelatedTools from "@/components/RelatedTools";
 import Link from "next/link";
 import CheckupCalculator from "@/components/CheckupCalculator";
@@ -68,6 +69,8 @@ export default function CheckupPage() {
       </p>
 
       <CheckupCalculator />
+
+      <NextStep calc="/calc/checkup" />
 
       <AdSlot slot="checkup-below-tool" />
 

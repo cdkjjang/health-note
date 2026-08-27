@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import CalcGuides from "@/components/CalcGuides";
+import NextStep from "@/components/NextStep";
 import RelatedTools from "@/components/RelatedTools";
 import Link from "next/link";
 import DependentCalculator from "@/components/DependentCalculator";
@@ -68,6 +69,8 @@ export default function DependentPage() {
       </p>
 
       <DependentCalculator />
+
+      <NextStep calc="/calc/dependent" />
 
       <AdSlot slot="dependent-below-tool" />
 

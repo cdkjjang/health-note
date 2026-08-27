@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import CalcGuides from "@/components/CalcGuides";
+import NextStep from "@/components/NextStep";
 import RelatedTools from "@/components/RelatedTools";
 import Link from "next/link";
 import CopayRateCalculator from "@/components/CopayRateCalculator";
@@ -69,6 +70,8 @@ export default function RatePage() {
       </p>
 
       <CopayRateCalculator />
+
+      <NextStep calc="/calc/rate" />
 
       <AdSlot slot="rate-below-tool" />
 
