@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MoneyField, ResultCard, parseMoney } from "./fields";
 import OptionGroup from "./OptionGroup";
 import { calcCheckup, type Sex } from "@/lib/checkup";
@@ -17,11 +17,19 @@ export default function CheckupCalculator() {
   const [liver, setLiver] = useState<"yes" | "no">("no");
   const [smoker, setSmoker] = useState<"yes" | "no">("no");
 
-  const year = new Date().getFullYear();
+  // 국가검진 대상은 '올해 − 출생연도'와 출생연도 홀짝으로 갈린다. 즉 올해가 몇 년인지가
+  // 결과를 뒤집는 입력이다. 이 페이지는 정적으로 미리 렌더링되므로 렌더 본문에서
+  // new Date()를 부르면 서버 HTML에 **빌드 연도**가 굳어, 해가 바뀐 뒤 재배포 전까지
+  // 대상 판정이 반대로 나온다(홀짝이 뒤집히기 때문). 그래서 마운트 후에 채운다.
+  const [year, setYear] = useState<number | null>(null);
+  useEffect(() => {
+    setYear(new Date().getFullYear());
+  }, []);
+
   const by = parseMoney(birthYear);
 
   const result =
-    by === null || by < 1900 || by > year
+    year === null || by === null || by < 1900 || by > year
       ? null
       : calcCheckup({
           birthYear: by,
