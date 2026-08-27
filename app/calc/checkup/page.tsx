@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import CalcGuides from "@/components/CalcGuides";
+import RelatedTools from "@/components/RelatedTools";
 import Link from "next/link";
 import CheckupCalculator from "@/components/CheckupCalculator";
 import AdSlot from "@/components/AdSlot";
@@ -247,6 +248,7 @@ export default function CheckupPage() {
         </ul>
       </section>
       <CalcGuides calcHref="/calc/checkup" />
+      <RelatedTools calc="/calc/checkup" />
     </div>
   );
 }
