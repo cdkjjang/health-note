@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: "문의하기",
   description: `${SITE_NAME} 문의 안내 — 계산 결과 오류 제보, 기준 변경 알림, 제휴·광고 문의를 받습니다.`,
   alternates: { canonical: "/contact" },
+  // 문의 페이지는 검색 의도가 없고 19개 노트가 거의 같은 내용이라 색인하지 않는다.
+  // 푸터에서 링크되므로 접근성은 그대로다. (워크스페이스 CLAUDE.md 8장)
+  robots: { index: false, follow: true },
 };
 
 export default function ContactPage() {

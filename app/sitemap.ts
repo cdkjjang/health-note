@@ -28,7 +28,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/calc/rate`, lastModified: CALC_UPDATED, changeFrequency: "monthly", priority: 0.9 },
     { url: `${SITE_URL}/guide`, lastModified: CONTENT_UPDATED, changeFrequency: "weekly", priority: 0.8 },
     { url: `${SITE_URL}/about`, lastModified: STATIC_UPDATED, changeFrequency: "yearly", priority: 0.3 },
-    { url: `${SITE_URL}/contact`, lastModified: STATIC_UPDATED, changeFrequency: "yearly", priority: 0.3 },
     { url: `${SITE_URL}/editorial`, lastModified: STATIC_UPDATED, changeFrequency: "yearly", priority: 0.4 },
     { url: `${SITE_URL}/privacy`, lastModified: STATIC_UPDATED, changeFrequency: "yearly", priority: 0.2 },
     { url: `${SITE_URL}/terms`, lastModified: STATIC_UPDATED, changeFrequency: "yearly", priority: 0.2 },
