@@ -11,14 +11,13 @@ export default function PrivacyPage() {
   return (
     <div className="space-y-6 text-[15px] leading-relaxed">
       <h1 className="text-2xl font-extrabold">개인정보처리방침</h1>
-      <p className="text-sm text-muted">시행일: 2026-07-23</p>
+      <p className="text-sm text-muted">시행일: 2026-07-23 · 최종 개정: 2026-09-10</p>
 
       <section className="space-y-3">
         <h2 className="text-lg font-bold">1. 수집하는 개인정보</h2>
         <p>
           {SITE_NAME}는 회원가입 없이 이용하는 서비스로, 이름·연락처 등 개인정보를
-          직접 수집하지 않습니다. 계산기에 입력한 나이·소득·금액 등은 이용자의
-          브라우저 안에서만 처리되며 서버로 전송·저장되지 않습니다.
+          직접 수집하지 않습니다. 계산기에 입력한 소득·재산과 진료비(급여·비급여), 의료기관 종별, 출생연도는 이용자의 브라우저 안에서만 처리되며 서버로 전송·저장되지 않습니다. 질병명이나 진료 내역 같은 건강 정보는 입력받지 않습니다.
         </p>
       </section>
 
