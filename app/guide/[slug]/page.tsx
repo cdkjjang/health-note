@@ -31,7 +31,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const guide = getGuide(slug);
   if (!guide) return {};
   return {
-    title: guide.title,
+    // 루트 layout의 `%s | 노트명` 템플릿을 적용하지 않는다.
+    // 구글 제목 링크는 한글 약 38자에서 잘리는데 접미사가 7자를 먹어,
+    // 정작 본문 제목의 뒷부분(부제)이 밀려 나갔다. 사이트명은 검색결과에
+    // 도메인 기준으로 따로 표시되므로 제목에서는 뺀다.
+    title: { absolute: guide.title },
     description: guide.description,
     alternates: { canonical: `/guide/${guide.slug}` },
     openGraph: {
