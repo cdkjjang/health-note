@@ -13,6 +13,8 @@ export const metadata: Metadata = {
     template: `%s | ${SITE_NAME}`,
   },
   description: SITE_DESCRIPTION,
+  // 글마다 대표 이미지(1200×630)를 만들었으므로 검색·디스커버에서 큰 미리보기를 허용한다.
+  robots: { "max-image-preview": "large" },
   openGraph: {
     siteName: SITE_NAME,
     locale: "ko_KR",

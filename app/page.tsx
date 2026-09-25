@@ -4,6 +4,8 @@ import AdSlot from "@/components/AdSlot";
 import HomeNotes from "@/components/HomeNotes";
 import { guides } from "@/lib/guides";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
+import NoteIcon from "@/components/NoteIcon";
+import { NOTE_SLUG } from "@/lib/note-look";
 
 const TOOLS = [
   {
@@ -51,6 +53,7 @@ export default function HomePage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <section className="py-6 text-center sm:py-10">
+        <NoteIcon slug={NOTE_SLUG} size={52} tile className="mb-4" />
         <h1 className="text-3xl font-extrabold leading-tight sm:text-4xl">
           건강보험,
           <br className="sm:hidden" /> 어디서 돈이 갈리나
@@ -67,7 +70,7 @@ export default function HomePage() {
           <Link
             key={tool.href}
             href={tool.href}
-            className="rounded-2xl border border-border-soft bg-card p-5 shadow-sm transition-all hover:border-accent hover:shadow-md"
+            className="rounded-2xl border border-border-soft bg-card p-5 transition-colors hover:border-accent"
           >
             <span className="rounded-full bg-accent/10 px-3 py-1 text-xs font-bold text-accent-strong">
               {tool.badge}
@@ -88,7 +91,7 @@ export default function HomePage() {
         <ul className="space-y-3">
           {guides.slice(0, 10).map((g) => (
             <li key={g.slug}>
-              <div className="rounded-xl border border-border-soft bg-card p-4 shadow-sm transition-all hover:border-accent">
+              <div className="rounded-xl border border-border-soft bg-card p-4 transition-colors hover:border-accent">
                 {/* 제목만 링크로 둔다 — 설명까지 앵커에 넣으면 본문 대부분이
                     링크 텍스트가 된다. */}
                 <p className="font-bold leading-snug">

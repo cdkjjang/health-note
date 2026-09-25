@@ -10,6 +10,8 @@
   --accent: #0f7b8a; /* 청록 — 기존 17개 노트의 주황·파랑·초록·보라·와인과 겹치지 않음 */
   --accent-strong: #0a5c68;
   --muted: #6b625b; /* 본문 대비(AA) 확보 */
+  --mark: #ffe27a; /* 형광펜 — 공책에 줄 긋듯 강조한다 */
+  --rule: #e8e4da; /* 공책 줄 색 */
 }
 
 @theme inline {
@@ -31,6 +33,8 @@
     --accent: #5cc2ce;
     --accent-strong: #8ad8e2;
     --muted: #a89e96;
+    --mark: rgba(250, 204, 21, 0.28);
+    --rule: #34363f;
   }
 }
 
@@ -42,4 +46,16 @@ body {
   font-family:
     "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", "Malgun Gothic",
     "맑은 고딕", system-ui, sans-serif;
+}
+
+/*
+ * 본문 강조. 굵게만 하면 한 문단에 굵은 글씨가 서너 개씩 박혀 눈이 쉴 데가 없었다.
+ * 글자 아래쪽 40%에만 형광펜을 칠해, 손으로 정리한 공책처럼 읽히게 한다. 허브와 같은 표기.
+ */
+.mark {
+  font-weight: 700;
+  background-image: linear-gradient(transparent 58%, var(--mark) 58%);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  padding: 0 1px;
 }
