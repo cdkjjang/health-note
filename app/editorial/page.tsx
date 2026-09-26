@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { SITE_NAME } from "@/lib/site";
 import { EDITORIAL, EDITORIAL_UPDATED } from "@/lib/editorial";
 
-const CONTACT_EMAIL = "cdkjjang@gmail.com";
+const CONTACT_EMAIL = "lifebanjang1004@naver.com";
 
 // 본문은 `lib/editorial.ts`에 있다. 노트마다 내용이 다르므로 이 파일만 공용이다.
 // 2026-09-10 이전에는 19개 사이트가 같은 문장을 그대로 쓰고 있었다.

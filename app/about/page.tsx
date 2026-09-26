@@ -51,10 +51,10 @@ export default function AboutPage() {
         입력한 소득·재산·진료비 정보는 이용자의 브라우저 안에서만 계산되며 서버로
         전송·저장되지 않습니다. 회원가입도 없습니다. 문의는{" "}
         <a
-          href="mailto:cdkjjang@gmail.com"
+          href="mailto:lifebanjang1004@naver.com"
           className="text-accent underline-offset-4 hover:underline"
         >
-          cdkjjang@gmail.com
+          lifebanjang1004@naver.com
         </a>
         으로 보내주세요.
       </p>

@@ -58,8 +58,8 @@ export default function PrivacyPage() {
         <h2 className="text-lg font-bold">4. 문의</h2>
         <p>
           개인정보 관련 문의는{" "}
-          <a href="mailto:cdkjjang@gmail.com" className="text-accent underline-offset-4 hover:underline">
-            cdkjjang@gmail.com
+          <a href="mailto:lifebanjang1004@naver.com" className="text-accent underline-offset-4 hover:underline">
+            lifebanjang1004@naver.com
           </a>
           으로 연락해 주세요.
         </p>

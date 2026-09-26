@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { SITE_NAME } from "@/lib/site";
 
-const CONTACT_EMAIL = "cdkjjang@gmail.com";
+const CONTACT_EMAIL = "lifebanjang1004@naver.com";
 
 export const metadata: Metadata = {
   title: "문의하기",

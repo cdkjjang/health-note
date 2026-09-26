@@ -62,8 +62,8 @@ export default function TermsPage() {
         <h2 className="text-lg font-bold">5. 문의</h2>
         <p>
           약관·서비스 관련 문의는{" "}
-          <a href="mailto:cdkjjang@gmail.com" className="text-accent underline-offset-4 hover:underline">
-            cdkjjang@gmail.com
+          <a href="mailto:lifebanjang1004@naver.com" className="text-accent underline-offset-4 hover:underline">
+            lifebanjang1004@naver.com
           </a>
           으로 보내주세요. 관련 문서:{" "}
           <Link href="/privacy" className="text-accent underline-offset-4 hover:underline">
