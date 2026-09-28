@@ -130,7 +130,7 @@ export default function CalcNotes({
             // 사이트 내부 경로에는 nofollow·target을 붙이지 않는다.
             const external = s.href.startsWith("http");
             return (
-              <li key={s.href}>
+              <li key={s.label}>
                 <a
                   href={s.href}
                   className="text-accent underline-offset-4 hover:underline"

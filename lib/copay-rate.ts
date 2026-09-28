@@ -5,7 +5,13 @@
 // [같은 진료도 어디서 받느냐로 달라진다]
 //   외래 본인부담률은 의료기관 종별로 정해져 있다.
 //     의원 30% · 병원 40% · 종합병원 50% · 상급종합병원 60%
+//   병원·종합병원은 **동 지역** 기준이다(읍·면은 35%·45%).
+//   ⚠️ 상급종합병원은 "60%"가 아니라 **진찰료 총액 + (나머지 × 60%)**다
+//     (별표2 제1호나목). 진찰료는 공단이 한 푼도 내지 않는다. 2026-09-27 점검 전까지
+//     이 계산기는 총액의 60%만 계산했다. 그래서 `consultFee` 입력을 받는다.
+//   외래 본인부담금은 100원 미만을 버린다(같은 호 본문). 입원은 버리지 않는다.
 //   입원은 종별과 무관하게 20%다. (식대는 50%)
+//   16일 이상 장기입원 입원료 25~30%, 2·3인실 입원료 30~50%는 반영하지 않는다.
 //
 //   그래서 감기로 대학병원에 가면 동네 의원의 두 배를 낸다. 상급종합병원은
 //   중증 환자를 보라고 만든 곳이라, 경증으로 가면 부담을 크게 지운다.
@@ -42,9 +48,9 @@ export interface FacilityInfo {
 
 export const FACILITIES: FacilityInfo[] = [
   { key: "clinic", label: "의원", outpatient: 0.3, hint: "동네 의원·치과의원·한의원" },
-  { key: "hospital", label: "병원", outpatient: 0.4, hint: "병상 30~100개" },
-  { key: "general", label: "종합병원", outpatient: 0.5, hint: "병상 100개 이상" },
-  { key: "tertiary", label: "상급종합병원", outpatient: 0.6, hint: "대학병원 등" },
+  { key: "hospital", label: "병원", outpatient: 0.4, hint: "병상 30~100개 · 읍·면은 35%" },
+  { key: "general", label: "종합병원", outpatient: 0.5, hint: "병상 100개 이상 · 읍·면은 45%" },
+  { key: "tertiary", label: "상급종합병원", outpatient: 0.6, hint: "대학병원 등 · 진찰료는 전액" },
   { key: "pharmacy", label: "약국", outpatient: 0.3, hint: "처방조제" },
 ];
 
@@ -73,6 +79,8 @@ export interface CopayRateInput {
   facility: Facility;
   visit: VisitType;
   specialCase: SpecialCase;
+  /** 진찰료 총액 (원) — 상급종합병원 외래에서만 쓰인다. 이 부분은 전액 본인 부담 */
+  consultFee?: number;
 }
 
 export interface CopayRateResult {
@@ -111,7 +119,16 @@ export function calcCopayRate(input: CopayRateInput): CopayRateResult {
     input.visit === "inpatient" ? INPATIENT_RATE : facilityOf(input.facility).outpatient;
   const rate = specialApplied ? special!.rate : baseRate;
 
-  const coveredCopay = Math.floor(covered * rate);
+  const outpatient = input.visit === "outpatient";
+  // 외래는 100원 미만을 버리고, 입원은 원 단위까지 낸다
+  const trim = (v: number) => (outpatient ? Math.floor(v / 100) * 100 : Math.floor(v));
+
+  // 상급종합병원 외래: 진찰료 전액 + 나머지의 60%
+  const consult =
+    outpatient && !specialApplied && input.facility === "tertiary"
+      ? Math.min(Math.max(0, input.consultFee ?? 0), covered)
+      : 0;
+  const coveredCopay = trim(consult + (covered - consult) * rate);
   const insurerPays = covered - coveredCopay;
   const totalPay = coveredCopay + uncovered;
   const grandTotal = covered + uncovered;
@@ -131,7 +148,7 @@ export function calcCopayRate(input: CopayRateInput): CopayRateResult {
     totalPay,
     grandTotal,
     effectiveRate: grandTotal > 0 ? totalPay / grandTotal : 0,
-    ifClinic: Math.floor(covered * clinicRate) + uncovered,
+    ifClinic: trim(covered * clinicRate) + uncovered,
   };
 }
 

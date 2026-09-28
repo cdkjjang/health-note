@@ -61,6 +61,25 @@ describe("외래 — 어디서 받느냐로 달라진다", () => {
     expect(r.ifClinic).toBe(30_000);
   });
 
+  it("상급종합병원은 진찰료 전액 + 나머지 60% (별표2 제1호나목)", () => {
+    // 급여 10만원 중 진찰료 2만원 → 2만 + 8만 × 60% = 6만 8천원
+    const r = calcCopayRate({ ...base, facility: "tertiary", consultFee: 20_000 });
+    expect(r.coveredCopay).toBe(68_000);
+    expect(r.insurerPays).toBe(32_000);
+  });
+
+  it("진찰료는 상급종합병원 외래에만 쓰인다", () => {
+    expect(calcCopayRate({ ...base, facility: "general", consultFee: 20_000 }).coveredCopay).toBe(50_000);
+    expect(
+      calcCopayRate({ ...base, facility: "tertiary", visit: "inpatient", consultFee: 20_000 }).coveredCopay
+    ).toBe(20_000);
+  });
+
+  it("외래는 100원 미만을 버리고 입원은 버리지 않는다", () => {
+    expect(calcCopayRate({ ...base, coveredTotal: 12_345 }).coveredCopay).toBe(3_700);
+    expect(calcCopayRate({ ...base, coveredTotal: 12_345, visit: "inpatient" }).coveredCopay).toBe(2_469);
+  });
+
   it("종별로 순서대로 올라간다", () => {
     const amounts = (["clinic", "hospital", "general", "tertiary"] as const).map(
       (f) => calcCopayRate({ ...base, facility: f }).coveredCopay

@@ -24,6 +24,9 @@ export default function CopayRateCalculator() {
   const [facility, setFacility] = useState<Facility>("clinic");
   const [visit, setVisit] = useState<VisitType>("outpatient");
   const [special, setSpecial] = useState<SpecialCase>("none");
+  const [consult, setConsult] = useState("0");
+
+  const tertiaryOutpatient = visit === "outpatient" && facility === "tertiary" && special === "none";
 
   const result = calcCopayRate({
     coveredTotal: won(covered),
@@ -31,6 +34,7 @@ export default function CopayRateCalculator() {
     facility,
     visit,
     specialCase: special,
+    consultFee: tertiaryOutpatient ? won(consult) : 0,
   });
 
   const saving = result.totalPay - result.ifClinic;
@@ -77,6 +81,17 @@ export default function CopayRateCalculator() {
         />
       )}
 
+      {tertiaryOutpatient && (
+        <MoneyField
+          label="그중 진찰료"
+          hint="상급종합병원 외래는 진찰료를 전액 내고 나머지의 60%를 냅니다. 영수증의 진찰료 칸. 모르면 0 — 그만큼 적게 나옵니다"
+          unit="만원"
+          value={consult}
+          onChange={setConsult}
+          placeholder="0"
+        />
+      )}
+
       <OptionGroup
         label="산정특례 대상인가요"
         options={SPECIAL_CASES.map((s) => ({ value: s.key, label: s.label, hint: s.hint }))}
@@ -91,6 +106,7 @@ export default function CopayRateCalculator() {
         <p className="mt-1 text-[15px] text-muted">
           적용 본인부담률 {Math.round(result.rate * 100)}%
           {result.specialApplied && " (산정특례)"}
+          {tertiaryOutpatient && " · 진찰료는 전액"}
           {result.uncovered > 0 && ` · 실질 부담률 ${Math.round(result.effectiveRate * 100)}%`}
         </p>
 
@@ -123,9 +139,10 @@ export default function CopayRateCalculator() {
               같은 진료를 의원에서 받으면 {formatWon(saving)} 적습니다
             </p>
             <p className="mt-1.5 text-muted">
-              외래 본인부담률이 의원 30%, 병원 40%, 종합병원 50%, 상급종합병원 60%로
-              정해져 있기 때문입니다. <strong>상급종합병원은 의원의 두 배</strong>입니다.
-              중증 환자를 보라고 만든 곳이라 경증 진료에는 부담을 크게 지웁니다.
+              외래 본인부담률이 의원 30%, 병원 40%, 종합병원 50%로 정해져 있고,
+              상급종합병원은 <strong>진찰료 전액에 나머지의 60%</strong>를 냅니다. 의원의
+              두 배가 넘습니다. 중증 환자를 보라고 만든 곳이라 경증 진료에는 부담을 크게
+              지웁니다.
             </p>
           </div>
         )}
@@ -160,9 +177,11 @@ export default function CopayRateCalculator() {
       </ResultCard>
 
       <p className="mt-5 text-sm leading-relaxed text-muted">
-        의원급 65세 이상 정률·정액 경감, 임신부·아동 외래 경감, 의료급여 수급자,
-        연간 외래 365회 초과 시 본인부담률 상향은 반영하지 않았습니다. 입원 식대(50%)와
-        상급병실료도 별도입니다. 참고용 추정치이며 실제 청구는 의료기관의 산정에 따릅니다.
+        병원·종합병원은 동 지역 기준입니다(읍·면은 5%p 낮음). 의원급 65세 이상 정액·정률
+        경감(1만 5천원 이하 1,500원), 임신부·1세 미만 외래 경감, 의료급여 수급자, 연간 외래
+        365회 초과분 90%, 경증·비응급 환자의 큰 응급실 이용 90%, 16일 이상 장기입원과
+        2·3인실 입원료 가산은 반영하지 않았습니다. 입원 식대(50%)와 상급병실료도
+        별도입니다. 참고용 추정치이며 실제 청구는 의료기관의 산정에 따릅니다.
       </p>
     </div>
   );

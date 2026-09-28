@@ -92,6 +92,15 @@ export default async function GuidePage({ params }: Props) {
         mainEntityOfPage: `${SITE_URL}/guide/${guide.slug}`,
         author: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
         publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+        ...(guide.sources?.length
+          ? {
+              citation: guide.sources.map((s) => ({
+                "@type": "CreativeWork",
+                name: s.label,
+                url: s.href,
+              })),
+            }
+          : {}),
       },
       // 검색결과에 "사이트명 > 가이드 > 글 제목" 경로가 표시되도록 한다.
       {
@@ -135,6 +144,7 @@ export default async function GuidePage({ params }: Props) {
       <h1 className="text-[1.7rem] font-extrabold leading-snug tracking-tight">{guide.title}</h1>
       <p className="mt-2 text-sm text-muted">
         {guide.updated} 고침 · 읽는 데 약 {minutes}분
+        {guide.sources?.length ? ` · 근거 ${guide.sources.length}개` : ""}
       </p>
 
       {/* 머리 그림. 제목이 든 대표 이미지(opengraph-image)는 공유·검색용으로만 쓰고,
@@ -183,6 +193,32 @@ export default async function GuidePage({ params }: Props) {
               </div>
             ))}
           </dl>
+        </section>
+      )}
+
+      {guide.sources && guide.sources.length > 0 && (
+        <section className="mt-12" aria-label="근거">
+          <h2 className="text-[1.3rem] font-extrabold leading-snug tracking-tight">이 글의 근거</h2>
+          <p className="mt-1 text-sm text-muted">
+            법령은 법제처 국가법령정보센터의 조문·별표로, 제도 안내는 국민건강보험공단 등 공식 페이지로 연결됩니다.
+          </p>
+          <ol className="mt-4 space-y-2 text-[15px] leading-relaxed">
+            {guide.sources.map((s, si) => (
+              <li key={s.href} className="flex gap-2">
+                <span className="w-5 shrink-0 text-right tabular-nums text-muted">{si + 1}.</span>
+                <span>
+                  <a
+                    href={s.href}
+                    rel="noopener"
+                    className="font-semibold text-accent underline-offset-4 hover:underline"
+                  >
+                    {s.label}
+                  </a>
+                  {s.note && <span className="text-muted"> — {s.note}</span>}
+                </span>
+              </li>
+            ))}
+          </ol>
         </section>
       )}
 

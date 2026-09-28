@@ -75,6 +75,12 @@ describe("사업소득 — 가장 흔한 탈락 사유", () => {
     expect(calcDependent({ ...base, businessIncome: 5_000_001 }).qualified).toBe(false);
   });
 
+  it("장애인·상이등급자는 사업자등록이 있어도 500만원까지 인정 (별표1의2 제1호나목)", () => {
+    const withReg = { ...base, hasBusinessReg: true, disabled: true };
+    expect(calcDependent({ ...withReg, businessIncome: 5_000_000 }).qualified).toBe(true);
+    expect(calcDependent({ ...withReg, businessIncome: 5_000_001 }).qualified).toBe(false);
+  });
+
   it("소득 총액은 통과해도 사업소득 기준에 걸릴 수 있다", () => {
     const r = calcDependent({
       ...base,
@@ -84,6 +90,19 @@ describe("사업소득 — 가장 흔한 탈락 사유", () => {
     });
     expect(r.checks.find((c) => c.label.includes("2,000만원"))!.status).toBe("pass");
     expect(r.qualified).toBe(false);
+  });
+});
+
+describe("부부 모두 소득요건 (별표1의2 제1호라목)", () => {
+  it("배우자가 소득요건을 넘으면 본인 소득이 0이어도 함께 탈락", () => {
+    const r = calcDependent({ ...base, totalIncome: 0, spouseOverIncome: true });
+    expect(r.qualified).toBe(false);
+    expect(r.checks.find((c) => c.label.includes("부부"))!.status).toBe("fail");
+  });
+
+  it("직장가입자 본인의 배우자를 판정할 때는 적용하지 않는다", () => {
+    const r = calcDependent({ ...base, relation: "spouse", spouseOverIncome: true });
+    expect(r.qualified).toBe(true);
   });
 });
 

@@ -35,6 +35,7 @@ export default function DependentCalculator() {
   const [hasReg, setHasReg] = useState<"yes" | "no">("no");
   const [bizIncome, setBizIncome] = useState("0");
   const [property, setProperty] = useState("20000");
+  const [spouse, setSpouse] = useState<"none" | "ok" | "over">("none");
 
   const result = calcDependent({
     relation,
@@ -44,6 +45,7 @@ export default function DependentCalculator() {
     hasBusinessReg: hasReg === "yes",
     businessIncome: won(bizIncome),
     propertyBase: won(property),
+    spouseOverIncome: relation !== "spouse" && spouse === "over",
   });
 
   const limit = effectiveIncomeLimit(won(property));
@@ -61,20 +63,37 @@ export default function DependentCalculator() {
       </p>
 
       {relation === "sibling" && (
+        <MoneyField label="나이" unit="세" value={age} onChange={setAge} placeholder="25" />
+      )}
+      <OptionGroup
+        label="장애인·국가유공·보훈 상이등급자인가요"
+        options={YES_NO}
+        value={disabled}
+        onChange={setDisabled}
+      />
+
+      {relation !== "spouse" && (
         <>
-          <MoneyField label="나이" unit="세" value={age} onChange={setAge} placeholder="25" />
           <OptionGroup
-            label="장애인·국가유공상이자인가요"
-            options={YES_NO}
-            value={disabled}
-            onChange={setDisabled}
+            label="배우자의 소득"
+            options={[
+              { value: "none" as const, label: "배우자 없음" },
+              { value: "ok" as const, label: "기준 이내" },
+              { value: "over" as const, label: "기준 초과" },
+            ]}
+            value={spouse}
+            onChange={setSpouse}
           />
+          <p className="-mt-3 mb-5 text-sm text-muted">
+            기혼이면 부부가 모두 소득요건을 채워야 합니다. 부모님을 등재한다면 두 분을 각각
+            확인하세요.
+          </p>
         </>
       )}
 
       <MoneyField
         label="연간 합산소득"
-        hint="이자·배당·사업·근로·연금·기타를 모두 더한 금액"
+        hint="이자·배당·사업·근로·공적연금·기타의 합계. 이자·배당은 합쳐서 1,000만원 이하면 빼고, 넘으면 전액 넣습니다"
         unit="만원"
         value={income}
         onChange={setIncome}
@@ -89,7 +108,13 @@ export default function DependentCalculator() {
       />
       <MoneyField
         label="사업소득"
-        hint={hasReg === "yes" ? "사업자등록이 있으면 1원만 있어도 탈락합니다" : "사업자등록이 없으면 500만원까지 인정"}
+        hint={
+          hasReg === "yes"
+            ? disabled === "yes"
+              ? "장애인·상이등급자는 사업자등록이 있어도 500만원까지 인정"
+              : "사업자등록이 있으면 1원만 있어도 탈락합니다"
+            : "사업자등록이 없으면 500만원까지 인정 (주택임대소득이 있으면 제외)"
+        }
         unit="만원"
         value={bizIncome}
         onChange={setBizIncome}

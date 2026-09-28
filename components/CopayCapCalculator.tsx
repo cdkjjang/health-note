@@ -33,13 +33,13 @@ export default function CopayCapCalculator() {
         onChange={setDecile}
       />
       <p className="-mt-3 mb-5 text-sm text-muted">
-        연봉이나 재산이 아니라 <strong>그해 낸 건강보험료의 연평균</strong>으로 정해집니다.
-        직장·지역 구분 없이 같은 기준입니다.
+        연봉이나 재산이 아니라 <strong>진료받은 해의 건강보험료 평균</strong>으로 정해집니다.
+        분위 경계는 직장가입자와 지역가입자가 따로 정해져 있습니다.
       </p>
 
       <MoneyField
         label="한 해 동안 낸 급여 진료비 본인부담금"
-        hint="영수증의 '급여' 항목 중 본인부담금 합계"
+        hint="영수증의 '급여' 항목 중 본인부담금 합계. 2·3인실 입원료·임플란트·추나요법·경증 응급실 90%분 등 상한제 제외 항목은 빼고 넣으세요"
         unit="만원"
         value={covered}
         onChange={setCovered}
@@ -133,7 +133,8 @@ export default function CopayCapCalculator() {
           <p className="mt-1.5 text-muted">
             공단이 전년도 진료분을 정산해 대상자에게 안내문을 보냅니다. 신청서를 내면
             계좌로 입금됩니다. 병원이 진료 중에 미리 정산해 주는 &lsquo;사전급여&rsquo;도
-            있는데, 같은 병원에서 상한액을 넘긴 경우에 적용됩니다.
+            있는데, 같은 병원에서 한 해 본인부담금이 최고상한액(843만원)을 넘은 경우에만
+            적용되고 요양병원은 대상이 아닙니다.
           </p>
         </div>
       </ResultCard>

@@ -82,13 +82,13 @@ export default function CheckupCalculator() {
       </p>
 
       <OptionGroup
-        label="30갑년 이상 흡연력이 있나요"
+        label="30갑년 이상 흡연력이 있고 지금도 피우나요"
         options={YES_NO}
         value={smoker}
         onChange={setSmoker}
       />
       <p className="-mt-3 mb-5 text-sm text-muted">
-        하루 1갑 × 30년 = 30갑년. 폐암검진 대상 판정에 씁니다.
+        하루 1갑 × 30년 = 30갑년. 폐암검진은 30갑년 이상인 현재 흡연자가 대상입니다.
       </p>
 
       {result === null ? (

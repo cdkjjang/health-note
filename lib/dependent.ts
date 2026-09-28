@@ -14,12 +14,18 @@
 //   ② 소득요건 — 연간 합산소득 2,000만원 이하 (+ 사업소득 별도 기준)
 //   ③ 재산요건 — 재산세 과세표준 기준
 //
-// [가장 많이 걸리는 함정 두 가지]
+// [가장 많이 걸리는 함정 세 가지]
 //   · **사업자등록이 있으면 사업소득이 1원만 있어도 탈락한다.** 소득 2,000만원
 //     기준과는 별개로 작동한다. 퇴직 후 프리랜서로 사업자등록을 내는 순간
-//     피부양자에서 빠지는 경우가 많다.
+//     피부양자에서 빠지는 경우가 많다. 예외는 장애인·국가유공·보훈 상이등급자로,
+//     사업자등록이 있어도 연 500만원까지 인정된다(별표1의2 제1호나목).
+//     반대로 **주택임대소득이 있으면 사업자등록이 없어도 500만원 예외가 없다.**
 //   · **소득 2,000만원은 '초과하면 즉시'다.** 2,000만 1원이어도 탈락한다.
 //     구간별 감액이 아니라 통과/탈락이다.
+//   · **기혼자는 부부 모두 소득요건을 채워야 한다**(별표1의2 제1호라목).
+//     아버지의 연금이 2,000만원을 넘으면 어머니도 함께 탈락한다. 2026-09-27
+//     점검 전까지 가이드 FAQ가 "부부는 각자 판단한다"고 거꾸로 쓰고 있었다.
+//     재산요건은 부부를 묶지 않는다.
 //
 // ⚠️ 이 판정은 참고용이다. 최종 판단은 건강보험공단이 한다. 특히 부양요건은
 //   가족관계와 동거 여부를 개별로 확인하므로, 여기서 통과가 나와도 결과가
@@ -85,8 +91,14 @@ export interface DependentInput {
   relation: Relation;
   /** 형제자매인 경우의 나이 */
   age: number;
-  /** 장애인·국가유공상이자 등 */
+  /** 장애인·국가유공·보훈 상이등급자 — 형제자매 나이 요건과 사업소득 예외에 쓰인다 */
   disabled: boolean;
+  /**
+   * 피부양자가 되려는 사람이 기혼인데 그 배우자가 소득요건을 넘는지.
+   * 부부 모두 소득요건을 채워야 하므로 배우자만 넘어도 함께 탈락한다.
+   * 직장가입자 본인의 배우자를 판정할 때는 해당 없음(false).
+   */
+  spouseOverIncome?: boolean;
   /** 연간 합산소득 (이자·배당·사업·근로·연금·기타, 원) */
   totalIncome: number;
   /** 사업자등록이 되어 있는지 */
@@ -164,7 +176,17 @@ export function calcDependent(input: DependentInput): DependentResult {
 
   // ── ②-2 사업소득 별도 기준
   const biz = Math.max(0, input.businessIncome);
-  if (input.hasBusinessReg) {
+  if (input.hasBusinessReg && input.disabled && biz > 0) {
+    // 장애인·국가유공·보훈 상이등급자는 사업자등록이 있어도 500만원까지 없는 것으로 본다
+    checks.push({
+      label: "사업소득 (장애인·상이등급자)",
+      status: biz <= BUSINESS_INCOME_LIMIT_NO_REG ? "pass" : "fail",
+      detail:
+        biz <= BUSINESS_INCOME_LIMIT_NO_REG
+          ? `${formatMoney(biz)} — 장애인·국가유공·보훈 상이등급자는 사업자등록이 있어도 500만원까지 인정됩니다.`
+          : `${formatMoney(biz)} — 장애인·상이등급자 예외도 500만원까지입니다.`,
+    });
+  } else if (input.hasBusinessReg) {
     checks.push({
       label: "사업소득 (사업자등록 있음)",
       status: biz > 0 ? "fail" : "pass",
@@ -179,8 +201,18 @@ export function calcDependent(input: DependentInput): DependentResult {
       status: biz <= BUSINESS_INCOME_LIMIT_NO_REG ? "pass" : "fail",
       detail:
         biz <= BUSINESS_INCOME_LIMIT_NO_REG
-          ? `${formatMoney(biz)} — 사업자등록이 없으면 500만원까지 인정됩니다.`
+          ? `${formatMoney(biz)} — 사업자등록이 없으면 500만원까지 인정됩니다. 다만 주택임대소득이 있으면 이 예외가 적용되지 않습니다.`
           : `${formatMoney(biz)} — 사업자등록이 없어도 500만원을 넘으면 탈락합니다.`,
+    });
+  }
+
+  // ── ②-3 부부 모두 소득요건
+  if (input.relation !== "spouse" && input.spouseOverIncome) {
+    checks.push({
+      label: "부부 모두 소득요건",
+      status: "fail",
+      detail:
+        "기혼자는 부부가 모두 소득요건을 채워야 합니다. 배우자의 소득이 기준을 넘으면 본인 소득이 없어도 함께 탈락합니다. 재산요건은 각자 봅니다.",
     });
   }
 
