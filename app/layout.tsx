@@ -9,7 +9,7 @@ const ADSENSE_CLIENT = process.env.NEXT_PUBLIC_ADSENSE_CLIENT ?? "ca-pub-6029964
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${SITE_NAME} — 피부양자·병원비·건강검진, 한곳에서`,
+    default: `피부양자 자격·본인부담상한제 환급·건강검진 대상 확인 | ${SITE_NAME}`,
     template: `%s | ${SITE_NAME}`,
   },
   description: SITE_DESCRIPTION,
