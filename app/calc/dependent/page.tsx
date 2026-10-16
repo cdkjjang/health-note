@@ -9,7 +9,7 @@ import CalcNotes from "@/components/CalcNotes";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "건강보험 피부양자 자격 판정 — 보험료 0원의 조건",
+  title: "건강보험 피부양자 자격 조회 — 보험료 0원의 조건",
   description:
     "소득 2,000만원, 사업자등록 시 사업소득 1원, 재산세 과세표준 5.4억·9억. 세 가지 요건을 하나씩 확인해 피부양자 자격을 판정합니다.",
   alternates: { canonical: "/calc/dependent" },

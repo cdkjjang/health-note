@@ -21,10 +21,14 @@ export default function CheckupCalculator() {
   // 결과를 뒤집는 입력이다. 이 페이지는 정적으로 미리 렌더링되므로 렌더 본문에서
   // new Date()를 부르면 서버 HTML에 **빌드 연도**가 굳어, 해가 바뀐 뒤 재배포 전까지
   // 대상 판정이 반대로 나온다(홀짝이 뒤집히기 때문). 그래서 마운트 후에 채운다.
-  const [year, setYear] = useState<number | null>(null);
+  const [thisYear, setThisYear] = useState<number | null>(null);
   useEffect(() => {
-    setYear(new Date().getFullYear());
+    setThisYear(new Date().getFullYear());
   }, []);
+  // 연말이면 "내년에 나는 대상인가"를 찾는 사람이 많다(네이버 검색어 '2027년 건강검진
+  // 대상자 조회'). 내년은 현행 기준이 그대로라고 가정한 예상이다.
+  const [which, setWhich] = useState<"this" | "next">("this");
+  const year = thisYear === null ? null : which === "next" ? thisYear + 1 : thisYear;
 
   const by = parseMoney(birthYear);
 
@@ -50,6 +54,18 @@ export default function CheckupCalculator() {
         onChange={setBirthYear}
         placeholder="1980"
       />
+
+      {thisYear !== null && (
+        <OptionGroup
+          label="어느 해 기준으로 볼까요"
+          options={[
+            { value: "this" as const, label: `올해 (${thisYear}년)` },
+            { value: "next" as const, label: `내년 (${thisYear + 1}년)` },
+          ]}
+          value={which}
+          onChange={setWhich}
+        />
+      )}
 
       <OptionGroup
         label="성별"
@@ -121,7 +137,7 @@ export default function CheckupCalculator() {
           </div>
 
           <p className="mt-5 mb-2 font-bold">
-            암검진 — 올해 {result.eligibleCount}종 대상
+            암검진 — {which === "next" ? "내년" : "올해"} {result.eligibleCount}종 대상
           </p>
           <ul className="space-y-2.5">
             {result.cancers.map((c) => (
@@ -162,7 +178,8 @@ export default function CheckupCalculator() {
       )}
 
       <p className="mt-5 text-sm leading-relaxed text-muted">
-        이 판정은 공개된 기준을 코드로 옮긴 참고용입니다. 실제 대상 여부는 국민건강보험공단
+        이 판정은 공개된 기준을 코드로 옮긴 참고용입니다. 내년 판정은 지금 기준이
+        바뀌지 않는다고 가정한 예상입니다. 실제 대상 여부는 국민건강보험공단
         홈페이지의 <strong>건강검진 대상조회</strong>에서 확인하세요. 전년도 미수검자
         추가 대상 등 예외가 있습니다. 검진 결과는 다음 해 대상 판정에 영향을 주지 않습니다.
       </p>

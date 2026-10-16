@@ -9,7 +9,7 @@ import CalcNotes from "@/components/CalcNotes";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "건강검진 대상 조회 — 올해 나는 무엇을 받나",
+  title: "건강검진 대상자 조회 — 출생연도 홀짝으로 올해·내년 확인",
   description:
     "출생연도 홀짝으로 갈리는 일반건강검진과, 암 6종의 나이·주기를 한 번에 판정합니다. 위암 40세, 대장암 50세, 자궁경부암 20세 기준.",
   alternates: { canonical: "/calc/checkup" },
@@ -65,7 +65,7 @@ export default function CheckupPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <h1 className="mb-2 text-2xl font-extrabold">건강검진 대상 조회</h1>
       <p className="mb-6 text-muted">
-        출생연도와 성별을 넣으면 올해 받을 수 있는 일반건강검진과 암검진을 판정합니다.
+        출생연도와 성별을 넣으면 올해 받을 수 있는 일반건강검진과 암검진을 판정합니다. 내년 대상인지도 골라서 볼 수 있습니다.
       </p>
 
       <CheckupCalculator />
@@ -159,7 +159,7 @@ export default function CheckupPage() {
       </section>
 
       <CalcNotes
-        updated="2026-09-27"
+        updated="2026-10-16"
         basis={[
           {
             law: "국민건강보험법 제52조 (건강검진)",
