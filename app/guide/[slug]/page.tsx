@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { CSSProperties } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { guideRobots } from "@/lib/google-index";
 import { getGuide, guides } from "@/lib/guides";
 import type { Guide } from "@/lib/guides";
 import { NOTE_SLUG, noteLook } from "@/lib/note-look";
@@ -46,6 +47,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: { absolute: guide.title },
     description: guide.description,
     alternates: { canonical: `/guide/${guide.slug}` },
+    robots: guideRobots(guide.slug),
     // og:image는 opengraph-image.tsx가 글마다 채운다. 예전처럼 여기서
     // "/opengraph-image"를 지정하면 모든 글이 사이트 공용 이미지로 덮인다.
     openGraph: {
