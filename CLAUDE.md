@@ -13,7 +13,7 @@
 
 - Next.js 16.2.10 (App Router) + TypeScript + Tailwind CSS 4. DB·로그인·결제·API 없음, 전부 정적.
 - 개발 서버: 워크스페이스 `.claude/launch.json`의 `health-note-dev` (포트 4700)
-- 빌드: `npm run build` / 테스트: `npm test` (vitest 99개)
+- 빌드: `npm run build` / 테스트: `npm test` (vitest 101개)
 - Node는 포터블: 명령 앞에 `$env:Path = "E:\클로드\tools\node;$env:Path"` 필요
 - **빌드 성공 판정은 `$LASTEXITCODE -eq 0`으로 한다.**
 - **PowerShell `Set-Content -Encoding utf8`은 BOM을 붙인다.** `package.json`에 BOM이
@@ -169,7 +169,7 @@
 
 - 브라우저 스크린샷은 이 환경에서 타임아웃 가능 — get_page_text/read_page/javascript_tool로 검증.
 - PowerShell에서 `app/guide/[slug]` 경로는 `-LiteralPath` 사용. `&&` 불가.
-- `components/FamilyLinks.tsx`의 SITES 배열은 전 사이트 공통 정본.
+- `components/FamilyLinks.tsx`는 2026-08-25부터 **허브 한 곳만** 가리킨다(형제 노트 18곳을 전부 링크하던 구조는 링크 네트워크로 읽힐 수 있어 걷었다 — 파일 머리말 참조). 새 노트를 만들어도 이 파일은 고칠 필요가 없고, 허브 `lib/notes.ts`에만 등록한다.
 - **가이드를 추가·수정하면** 허브에서 `npm run gen:note-guides`를 돌리고 허브도 함께
   배포해야 `lifebanjang.com/articles/health` 목록에 반영된다.
 - 입력한 소득·재산·진료비는 브라우저에서만 처리하고 서버로 보내지 않는다.
