@@ -182,6 +182,8 @@ export default async function GuidePage({ params }: Props) {
               </ul>
             )}
           </div>
+          {/* 두 번째 광고 자리 — 본문 한가운데. 끝까지 내리지 않아도 한 번 더 보이게. 섹션 4개 미만이면 도입부 배너와 너무 가까워 뺀다. */}
+          {guide.sections.length >= 4 && i === Math.floor(guide.sections.length / 2) && <AdSlot slot="guide-mid-article" />}
         </section>
       ))}
 

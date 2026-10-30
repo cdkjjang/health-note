@@ -59,7 +59,7 @@ function AdSenseSlot({ slot }: { slot: string }) {
 }
 
 // 광고 자리 하나 = 쿠팡 파트너스 배너 + 애드센스 슬롯.
-// 한 페이지에 광고 자리가 둘 이상이면 하나만 coupang을 켜 둘 것(배너는 페이지당 1개).
+// 2026-10-30부터 긴 페이지는 배너 두 개(위·중간). 셋 이상 나오게 되면 coupang={false}로 끌 것.
 export default function AdSlot({ slot, coupang = true }: { slot: string; coupang?: boolean }) {
   return (
     <>

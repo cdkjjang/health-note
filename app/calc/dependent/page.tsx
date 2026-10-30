@@ -146,6 +146,9 @@ export default function DependentPage() {
           보험료를 유지할 수 있습니다. 신청 기한이 짧으니 함께 확인해 보세요.
         </p>
 
+        {/* 두 번째 광고 자리 — 해설 끝, 자주 묻는 질문 앞 */}
+        <AdSlot slot="calc-mid" />
+
         <h2 className="mt-8 text-xl font-bold">자주 묻는 질문</h2>
         <dl className="space-y-4">
           {faq.map(({ q, a }) => (
