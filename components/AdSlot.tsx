@@ -7,6 +7,7 @@
 
 "use client";
 
+import CoupangBanner from "./CoupangBanner";
 import { useEffect } from "react";
 
 const ADSENSE_CLIENT = process.env.NEXT_PUBLIC_ADSENSE_CLIENT ?? "ca-pub-6029964277117053";
@@ -17,7 +18,7 @@ declare global {
   }
 }
 
-export default function AdSlot({ slot }: { slot: string }) {
+function AdSenseSlot({ slot }: { slot: string }) {
   useEffect(() => {
     if (!ADSENSE_CLIENT) return;
     try {
@@ -50,5 +51,16 @@ export default function AdSlot({ slot }: { slot: string }) {
         data-full-width-responsive="true"
       />
     </aside>
+  );
+}
+
+// 광고 자리 하나 = 쿠팡 파트너스 배너 + 애드센스 슬롯.
+// 한 페이지에 광고 자리가 둘 이상이면 하나만 coupang을 켜 둘 것(배너는 페이지당 1개).
+export default function AdSlot({ slot, coupang = true }: { slot: string; coupang?: boolean }) {
+  return (
+    <>
+      {coupang && <CoupangBanner />}
+      <AdSenseSlot slot={slot} />
+    </>
   );
 }

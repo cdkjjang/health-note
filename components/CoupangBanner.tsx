@@ -1,0 +1,83 @@
+// 쿠팡 파트너스 다이나믹 배너 (2026-10-30 시험 게재).
+// AdSlot이 이 컴포넌트를 함께 렌더링하므로 광고 자리(계산기·가이드 상세·홈)에만 나온다.
+// 지금은 19곳이 같은 배너 하나를 쓴다. 효과를 본 뒤 노트별 채널·상품으로 바꿀 것.
+//
+// 공식 코드는 <script> 두 줄을 그 자리에 박는 방식인데, React는 innerHTML로 넣은
+// 스크립트를 실행하지 않고 클라이언트 이동 때 다시 돌지도 않는다. 그래서 g.js를 한 번만
+// 불러 두고 PartnersCoupang.G의 container 옵션으로 이 div 안에 iframe을 꽂는다.
+//
+// ⚠️ 수수료 고지 문구는 공정위 추천·보증 심사지침상 필수다. 지우지 말 것.
+
+"use client";
+
+import { useEffect, useRef } from "react";
+
+const BANNER = {
+  id: 1044822,
+  template: "carousel",
+  trackingCode: "AF6888890",
+  width: "320",
+  height: "100",
+  tsource: "",
+};
+
+const SCRIPT_SRC = "https://ads-partners.coupang.com/g.js";
+
+declare global {
+  interface Window {
+    PartnersCoupang?: { G: new (options: Record<string, unknown>) => unknown };
+  }
+}
+
+let loader: Promise<void> | null = null;
+
+function loadScript(): Promise<void> {
+  if (window.PartnersCoupang) return Promise.resolve();
+  if (!loader) {
+    loader = new Promise((resolve, reject) => {
+      const s = document.createElement("script");
+      s.src = SCRIPT_SRC;
+      s.async = true;
+      s.onload = () => resolve();
+      s.onerror = () => {
+        loader = null;
+        reject(new Error("coupang script failed"));
+      };
+      document.head.appendChild(s);
+    });
+  }
+  return loader;
+}
+
+export default function CoupangBanner() {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    let cancelled = false;
+    loadScript()
+      .then(() => {
+        if (cancelled || !window.PartnersCoupang) return;
+        el.innerHTML = "";
+        new window.PartnersCoupang.G({ ...BANNER, container: el });
+      })
+      .catch(() => {
+        // 광고 차단기 등으로 실패해도 페이지 동작에는 영향 없음
+      });
+    return () => {
+      cancelled = true;
+      el.innerHTML = "";
+    };
+  }, []);
+
+  return (
+    // 배너 높이(100px)를 미리 잡아 둔다. 늦게 뜨면서 아래 내용을 밀면 잘못 누르기 쉽다.
+    <aside className="my-6 text-center" aria-label="쿠팡 파트너스 광고">
+      <div ref={ref} className="mx-auto min-h-[100px] max-w-[320px]" />
+      <p className="mt-2 text-xs text-muted">
+        이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.
+      </p>
+    </aside>
+  );
+}
