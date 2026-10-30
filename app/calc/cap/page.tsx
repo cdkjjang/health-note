@@ -71,9 +71,9 @@ export default function CapPage() {
 
       <CopayCapCalculator />
 
-      <NextStep calc="/calc/cap" />
-
       <AdSlot slot="cap-below-tool" />
+
+      <NextStep calc="/calc/cap" />
 
       <section className="mt-10 space-y-4 text-[15px] leading-relaxed">
         <h2 className="text-xl font-bold">일 년에 낸 병원비에 천장이 있습니다</h2>

@@ -71,9 +71,9 @@ export default function RatePage() {
 
       <CopayRateCalculator />
 
-      <NextStep calc="/calc/rate" />
-
       <AdSlot slot="rate-below-tool" />
+
+      <NextStep calc="/calc/rate" />
 
       <section className="mt-10 space-y-4 text-[15px] leading-relaxed">
         <h2 className="text-xl font-bold">

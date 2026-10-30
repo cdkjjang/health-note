@@ -159,6 +159,9 @@ export default async function GuidePage({ params }: Props) {
         ))}
       </div>
 
+      {/* 광고 자리 — 도입부 바로 뒤. 본문 중간(두 번째 섹션 뒤)에 두니 스크롤을 한참 내려야 보였다. */}
+      <AdSlot slot="guide-in-article" />
+
       {guide.sections.map((section, i) => (
         <section key={section.heading} className="mt-12">
           <p className="text-sm font-extrabold tabular-nums text-accent">
@@ -179,8 +182,6 @@ export default async function GuidePage({ params }: Props) {
               </ul>
             )}
           </div>
-          {/* 본문 중간 광고 — 두 번째 섹션 뒤 한 곳만 */}
-          {i === 1 && <AdSlot slot="guide-in-article" />}
         </section>
       ))}
 

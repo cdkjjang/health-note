@@ -70,9 +70,9 @@ export default function CheckupPage() {
 
       <CheckupCalculator />
 
-      <NextStep calc="/calc/checkup" />
-
       <AdSlot slot="checkup-below-tool" />
+
+      <NextStep calc="/calc/checkup" />
 
       <section className="mt-10 space-y-4 text-[15px] leading-relaxed">
         <h2 className="text-xl font-bold">출생연도 홀짝이 기준입니다</h2>

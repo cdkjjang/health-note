@@ -74,9 +74,9 @@ export default function DependentPage() {
 
       <DependentCalculator />
 
-      <NextStep calc="/calc/dependent" />
-
       <AdSlot slot="dependent-below-tool" />
+
+      <NextStep calc="/calc/dependent" />
 
       <section className="mt-10 space-y-4 text-[15px] leading-relaxed">
         <h2 className="text-xl font-bold">보험료 0원, 그런데 요건이 계속 좁아졌습니다</h2>

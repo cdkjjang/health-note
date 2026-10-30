@@ -11,6 +11,10 @@ import CoupangBanner from "./CoupangBanner";
 import { useEffect } from "react";
 
 const ADSENSE_CLIENT = process.env.NEXT_PUBLIC_ADSENSE_CLIENT ?? "ca-pub-6029964277117053";
+// 2026-10-30 방향 전환: 애드센스 승인 대신 검색 유입 + 쿠팡 파트너스로 수익을 낸다.
+// 미승인 상태의 애드센스 슬롯은 광고 없이 336px 빈칸만 남겨 본문을 밀어내므로 슬롯만 끈다.
+// 로더 스크립트(layout)와 ads.txt는 그대로 둔다 — 다시 신청할 때 이 값만 true로.
+const ADSENSE_SLOTS_ON = false;
 
 declare global {
   interface Window {
@@ -20,7 +24,7 @@ declare global {
 
 function AdSenseSlot({ slot }: { slot: string }) {
   useEffect(() => {
-    if (!ADSENSE_CLIENT) return;
+    if (!ADSENSE_CLIENT || !ADSENSE_SLOTS_ON) return;
     try {
       (window.adsbygoogle = window.adsbygoogle || []).push({});
     } catch {
@@ -28,7 +32,7 @@ function AdSenseSlot({ slot }: { slot: string }) {
     }
   }, []);
 
-  if (!ADSENSE_CLIENT) return null;
+  if (!ADSENSE_CLIENT || !ADSENSE_SLOTS_ON) return null;
 
   return (
     // 높이를 미리 잡아 둔다. 광고 스크립트가 실행되며 0 -> 실제 크기로 늘어나면
