@@ -88,13 +88,31 @@ export default function CoupangBanner() {
   }, []);
 
   return (
-    // 배너 높이(모바일 100px · PC 140px)를 미리 잡아 둔다. 늦게 뜨면서 아래 내용을 밀면 잘못 누르기 쉽다.
-    <aside className="my-6 text-center" aria-label="쿠팡 파트너스 광고">
+    // 머리 문구 + 배너 + 고지 문구를 한 묶음으로 둔다. 폭은 배너에 맞춘다(모바일 320 · PC 680).
+    // 모바일은 본문 폭이 328px 안팎이라 테두리·안쪽 여백을 넣으면 320 배너가 넘친다 — 카드 모양은 PC에서만.
+    //
+    // ⚠️ 머리 문구에 '세일·특가·할인'을 쓰지 말 것. 이 배너는 '고객 관심 기반 추천'이라 특가 상품이
+    //    나온다는 보장이 없다. 사실과 다른 문구로 클릭을 끌면 표시광고법상 기만 광고이고 쿠팡 파트너스
+    //    약관의 부당 클릭 유도에도 걸린다. 특가 문구를 쓰려면 배너 자체를 골드박스(특가) 타입으로 바꿀 것.
+//    '오늘의'는 괜찮다 — 추천 상품이 들어올 때마다 바뀌므로 사실과 맞다(2026-10-30 사용자와 정함).
+    <aside
+      className="mx-auto my-6 w-full max-w-[320px] md:max-w-[706px] md:rounded-2xl md:border md:border-border-soft md:bg-card md:p-3"
+      aria-label="쿠팡 파트너스 광고"
+    >
+      <div className="mb-2 flex items-center justify-between gap-2">
+        <p className="text-sm font-bold">
+          오늘의 <span className="text-accent">쿠팡</span> 추천 상품
+        </p>
+        <span className="shrink-0 rounded border border-border-soft px-1.5 py-px text-[11px] text-muted">
+          광고
+        </span>
+      </div>
+      {/* 배너 높이(모바일 100px · PC 140px)를 미리 잡아 둔다. 늦게 뜨면서 아래 내용을 밀면 잘못 누르기 쉽다. */}
       <div
         ref={ref}
-        className="mx-auto min-h-[100px] max-w-[320px] md:min-h-[140px] md:max-w-[680px]"
+        className="mx-auto min-h-[100px] max-w-[320px] overflow-hidden rounded-lg md:min-h-[140px] md:max-w-[680px]"
       />
-      <p className="mt-2 text-xs text-muted">
+      <p className="mt-2 text-[11px] leading-snug text-muted">
         이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.
       </p>
     </aside>
