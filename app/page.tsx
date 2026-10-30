@@ -81,6 +81,9 @@ export default function HomePage() {
         ))}
       </section>
 
+      {/* 홈 위쪽 광고 자리 — 맨 아래 하나뿐이라 PC에서도 한참 내려야 보였다 */}
+      <AdSlot slot="home-top" />
+
       <section className="mt-12">
         <div className="mb-4 flex items-baseline justify-between">
           <h2 className="text-xl font-bold">건강보험 가이드</h2>
