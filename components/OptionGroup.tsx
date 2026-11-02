@@ -23,13 +23,13 @@ export default function OptionGroup<T extends string>({
             aria-pressed={value === opt.value}
             className={`rounded-full border px-4 py-2.5 text-[15px] transition-all ${
               value === opt.value
-                ? "border-accent bg-accent font-semibold text-white shadow-md"
+                ? "border-accent bg-accent font-semibold text-on-accent shadow-md"
                 : "border-border-soft bg-card hover:border-accent hover:shadow-sm"
             }`}
           >
             <span>{opt.label}</span>
             {opt.hint && (
-              <span className={`ml-1 text-xs ${value === opt.value ? "text-white/85" : "text-muted"}`}>
+              <span className={`ml-1 text-xs ${value === opt.value ? "text-on-accent/85" : "text-muted"}`}>
                 · {opt.hint}
               </span>
             )}

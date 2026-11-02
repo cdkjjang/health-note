@@ -232,7 +232,7 @@ export default async function GuidePage({ params }: Props) {
           <p className="font-bold">내 상황에 바로 적용해 보세요</p>
           <Link
             href={cta.href}
-            className="mt-3 inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-2.5 font-bold text-white transition-colors hover:bg-accent-strong"
+            className="mt-3 inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-2.5 font-bold text-on-accent transition-colors hover:bg-accent-strong"
           >
             {cta.label} →
           </Link>

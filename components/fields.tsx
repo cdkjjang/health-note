@@ -3,7 +3,7 @@
 // 계산기 공용 입력 필드 — 금액·숫자
 
 const inputClass =
-  "w-full rounded-xl border border-border-soft bg-card px-4 py-2.5 text-[15px] outline-none transition-colors focus:border-accent";
+  "w-full rounded-xl border border-border-soft bg-card px-4 py-2.5 text-base outline-none transition-colors focus:border-accent";
 
 export function MoneyField({
   label,

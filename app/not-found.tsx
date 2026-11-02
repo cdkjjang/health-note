@@ -34,7 +34,7 @@ export default function NotFound() {
       </div>
       <Link
         href="/"
-        className="mt-8 inline-block rounded-xl bg-accent px-6 py-2.5 font-bold text-white transition-colors hover:bg-accent-strong"
+        className="mt-8 inline-block rounded-xl bg-accent px-6 py-2.5 font-bold text-on-accent transition-colors hover:bg-accent-strong"
       >
         홈으로 가기
       </Link>
