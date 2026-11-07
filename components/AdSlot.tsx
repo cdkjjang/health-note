@@ -58,12 +58,26 @@ function AdSenseSlot({ slot }: { slot: string }) {
   );
 }
 
+// 아래쪽(두 번째) 자리의 slot 이름. 여기에는 추천 배너, 나머지 위쪽 자리에는 골드박스 배너가 나온다.
+// 계산기 해설 끝·가이드 중간·홈 맨 아래·경조사 문구 목록 끝(`${adSlot}-2`)·허브 노트 목록 아래.
+const LOWER_SLOT = /^(calc-mid|guide-mid-article|home-bottom|hub-home-below-notes)$|-2$/;
+
 // 광고 자리 하나 = 쿠팡 파트너스 배너 + 애드센스 슬롯.
 // 2026-10-30부터 긴 페이지는 배너 두 개(위·중간). 셋 이상 나오게 되면 coupang={false}로 끌 것.
-export default function AdSlot({ slot, coupang = true }: { slot: string; coupang?: boolean }) {
+// 2026-11-07부터 위쪽은 골드박스, 아래쪽은 추천 배너. slot 이름으로 못 가를 때는 banner로 지정한다.
+export default function AdSlot({
+  slot,
+  coupang = true,
+  banner,
+}: {
+  slot: string;
+  coupang?: boolean;
+  banner?: "goldbox" | "recommend";
+}) {
+  const kind = banner ?? (LOWER_SLOT.test(slot) ? "recommend" : "goldbox");
   return (
     <>
-      {coupang && <CoupangBanner />}
+      {coupang && <CoupangBanner kind={kind} />}
       <AdSenseSlot slot={slot} />
     </>
   );
