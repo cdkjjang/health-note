@@ -5,6 +5,10 @@ import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const ADSENSE_CLIENT = process.env.NEXT_PUBLIC_ADSENSE_CLIENT ?? "ca-pub-6029964277117053";
+// 2026-11-14 로더도 끈다. 슬롯을 꺼 둔 뒤로 광고는 한 개도 안 나오는데, 스크립트만 내려받아 실행하느라
+// 휴대폰에서 첫 화면이 0.3~1.1초 멈췄다(허브 홈 1,283ms → 168ms). 애드센스를 다시 신청할 때 AdSlot의
+// ADSENSE_SLOTS_ON과 함께 true로. ads.txt는 그대로 둔다.
+const ADSENSE_LOADER_ON = false;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -43,7 +47,7 @@ export default function RootLayout({
       {/* 애드센스 로더 — 크롤러가 원본 HTML의 <head>에서 script 태그를 찾으므로
           next/script(preload만 출력) 대신 원시 script 태그를 head에 직접 넣는다. */}
       <head>
-        {ADSENSE_CLIENT && (
+        {ADSENSE_CLIENT && ADSENSE_LOADER_ON && (
           <script
             async
             src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`}

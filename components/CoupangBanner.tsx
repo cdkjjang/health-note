@@ -162,7 +162,7 @@ export default function CoupangBanner({ kind = "recommend" }: { kind?: "goldbox"
             오늘의 <span className="text-accent">쿠팡</span> 추천 상품
           </p>
         )}
-        <span className="shrink-0 rounded border border-border-soft px-1.5 py-px text-[11px] text-muted">
+        <span className="shrink-0 rounded border border-border-soft px-1.5 py-px text-xs text-muted">
           광고
         </span>
       </div>
@@ -175,7 +175,7 @@ export default function CoupangBanner({ kind = "recommend" }: { kind?: "goldbox"
       ) : (
         <RecommendBanner />
       )}
-      <p className="mt-2 text-[11px] leading-snug text-muted">
+      <p className="mt-2 text-xs leading-snug text-muted">
         이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.
       </p>
     </aside>

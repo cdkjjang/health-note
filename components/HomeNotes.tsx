@@ -67,7 +67,7 @@ export default function HomeNotes({
               </p>
               <Link
                 href={s.href}
-                className="mt-2 inline-block text-sm font-semibold text-accent underline-offset-4 hover:underline"
+                className="-mb-1.5 mt-0.5 inline-block py-1.5 text-sm font-semibold text-accent underline-offset-4 hover:underline"
               >
                 {s.label} →
               </Link>
