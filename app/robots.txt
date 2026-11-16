@@ -1,0 +1,7 @@
+User-Agent: *
+Allow: /
+
+#다음 웹마스터 도구 소유확인 (webmaster.daum.net)
+#DaumWebMasterTool:7795b45d3a75ae315976ef93c66f447b77f5f08e6afcf765d54f3dc595ccc2d6:CNSJIIGOISrSV2aL3hPlgQ==
+
+Sitemap: https://health.lifebanjang.com/sitemap.xml
