@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { guides } from "./guides";
+import { sectionTexts } from "./guide-types";
 import { FACILITIES, INPATIENT_RATE, SPECIAL_CASES } from "./copay-rate";
 import nextConfig from "../next.config";
 
@@ -17,7 +18,7 @@ import nextConfig from "../next.config";
 function bodyLength(g: (typeof guides)[number]): number {
   const parts = [
     ...g.intro,
-    ...g.sections.flatMap((s) => [s.heading, ...s.paragraphs, ...(s.list ?? [])]),
+    ...g.sections.flatMap(sectionTexts),
     ...g.faq.flatMap((f) => [f.q, f.a]),
   ];
   return parts.join("").replace(/\s/g, "").length;
@@ -26,7 +27,7 @@ function bodyLength(g: (typeof guides)[number]): number {
 function allText(g: (typeof guides)[number]): string {
   return [
     ...g.intro,
-    ...g.sections.flatMap((s) => [s.heading, ...s.paragraphs, ...(s.list ?? [])]),
+    ...g.sections.flatMap(sectionTexts),
     ...g.faq.flatMap((f) => [f.q, f.a]),
   ].join("\n");
 }
@@ -221,5 +222,29 @@ describe("통합으로 사라진 URL의 301", () => {
       .filter((r) => sources.has(r.destination))
       .map((r) => `${r.source} → ${r.destination}`);
     expect(chained).toEqual([]);
+  });
+});
+
+describe("본문 표", () => {
+  // 2026-11-15 표 필드 추가. 칸 수가 머리와 다르면 모바일에서 열이 밀려 읽을 수 없다.
+  it("표의 모든 행이 머리와 칸 수가 같고 빈 머리가 없다", () => {
+    const bad: string[] = [];
+    for (const g of guides) {
+      for (const s of g.sections) {
+        if (!s.table) continue;
+        const { head, rows } = s.table;
+        if (head.length < 2 || head.some((h) => !h.trim())) bad.push(`${g.slug} · ${s.heading}: 머리`);
+        if (rows.length === 0) bad.push(`${g.slug} · ${s.heading}: 행 없음`);
+        rows.forEach((r, i) => {
+          if (r.length !== head.length) bad.push(`${g.slug} · ${s.heading}: ${i + 1}행 ${r.length}칸/${head.length}`);
+        });
+      }
+    }
+    expect(bad).toEqual([]);
+  });
+
+  it("표 글자도 본문 길이에 들어간다", () => {
+    const s = { heading: "", paragraphs: [], table: { head: ["가", "나"], rows: [["다", "라"]], note: "마" } };
+    expect(sectionTexts(s).join("")).toBe("가나다라마");
   });
 });

@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { guideRobots } from "@/lib/google-index";
 import { getGuide, guides } from "@/lib/guides";
 import type { Guide } from "@/lib/guides";
+import { sectionTexts } from "@/lib/guide-types";
 import { NOTE_SLUG, noteLook } from "@/lib/note-look";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import AdSlot from "@/components/AdSlot";
@@ -54,6 +55,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: guide.title,
       description: guide.description,
       type: "article",
+      // 레이아웃의 openGraph를 통째로 덮으므로 사이트 이름·언어·주소를 다시 적는다(2026-11-17).
+      siteName: SITE_NAME,
+      locale: "ko_KR",
+      url: `${SITE_URL}/guide/${guide.slug}`,
     },
   };
 }
@@ -62,7 +67,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 function readingMinutes(g: Guide): number {
   const text = [
     ...g.intro,
-    ...g.sections.flatMap((s) => [s.heading, ...s.paragraphs, ...(s.list ?? [])]),
+    ...g.sections.flatMap(sectionTexts),
     ...g.faq.flatMap((f) => [f.q, f.a]),
   ].join("");
   return Math.max(1, Math.round(text.replace(/\s|\*/g, "").length / 500));
@@ -174,6 +179,60 @@ export default async function GuidePage({ params }: Props) {
             {section.paragraphs.map((p) => (
               <p key={p.slice(0, 20)} dangerouslySetInnerHTML={{ __html: bold(p) }} />
             ))}
+            {/* 표 — 휴대폰에서 화면을 넘으면 표 안에서만 가로로 밀린다(본문은 그대로). */}
+            {section.table && (
+              <figure>
+                <div
+                  className="overflow-x-auto rounded-xl border border-border-soft border-t-[3px] border-t-[var(--tone)]"
+                  role="region"
+                  aria-label={`${section.heading} 표`}
+                  tabIndex={0}
+                >
+                  <table className="w-full border-collapse break-keep text-[14px] leading-snug sm:text-[15px]">
+                    <thead className="bg-card">
+                      <tr>
+                        {section.table.head.map((h) => (
+                          <th
+                            key={h}
+                            scope="col"
+                            className="border-b border-border-soft px-2.5 py-2.5 text-left align-bottom font-bold sm:px-3"
+                            dangerouslySetInnerHTML={{ __html: bold(h) }}
+                          />
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {section.table.rows.map((row) => (
+                        <tr key={row.join("|")} className="border-b border-border-soft last:border-b-0">
+                          {row.map((cell, ci) =>
+                            ci === 0 ? (
+                              <th
+                                key={ci}
+                                scope="row"
+                                className="whitespace-nowrap px-2.5 py-2.5 text-left align-top font-semibold sm:px-3"
+                                dangerouslySetInnerHTML={{ __html: bold(cell) }}
+                              />
+                            ) : (
+                              <td
+                                key={ci}
+                                className="px-2.5 py-2.5 align-top tabular-nums sm:px-3"
+                                dangerouslySetInnerHTML={{ __html: bold(cell) }}
+                              />
+                            ),
+                          )}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                {section.table.note && (
+                  <figcaption
+                    className="mt-2 text-sm leading-relaxed text-muted"
+                    dangerouslySetInnerHTML={{ __html: bold(section.table.note) }}
+                  />
+                )}
+              </figure>
+            )}
             {section.list && (
               <ul className="list-disc space-y-2 pl-5 marker:text-[var(--tone)]">
                 {section.list.map((item) => (
