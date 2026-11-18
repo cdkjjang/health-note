@@ -7,6 +7,7 @@ import CopayCapCalculator from "@/components/CopayCapCalculator";
 import AdSlot from "@/components/AdSlot";
 import CalcNotes from "@/components/CalcNotes";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
+import { jsonLdScript } from "@/lib/json-ld";
 
 export const metadata: Metadata = {
   title: "본인부담상한제 환급 계산기 — 병원비 돌려받기",
@@ -62,7 +63,7 @@ export default function CapPage() {
 
   return (
     <div>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }} />
       <h1 className="mb-2 text-2xl font-extrabold">본인부담상한제 환급 계산기</h1>
       <p className="mb-6 text-muted">
         한 해 병원비가 소득분위별 상한액을 넘으면 초과분을 돌려받습니다. 2026년 기준으로

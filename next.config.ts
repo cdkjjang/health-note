@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // 응답 헤더에 'X-Powered-By: Next.js'를 싣지 않는다(허브와 같게, 2026-11-20).
+  poweredByHeader: false,
   // 보안 헤더 — 콘텐츠나 광고 동작에는 영향을 주지 않는다.
   // HSTS와 HTTPS 리다이렉트는 Vercel이 처리하므로 여기서는 세 가지만 둔다.
   // X-Frame-Options는 SAMEORIGIN — 광고는 우리 페이지 '안에' 들어오는

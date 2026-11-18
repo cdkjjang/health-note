@@ -7,6 +7,7 @@ import CopayRateCalculator from "@/components/CopayRateCalculator";
 import AdSlot from "@/components/AdSlot";
 import CalcNotes from "@/components/CalcNotes";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
+import { jsonLdScript } from "@/lib/json-ld";
 
 export const metadata: Metadata = {
   title: "병원비 본인부담률 계산기 — 같은 진료, 두 배 차이",
@@ -62,7 +63,7 @@ export default function RatePage() {
 
   return (
     <div>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }} />
       <h1 className="mb-2 text-2xl font-extrabold">병원비 본인부담률 계산기</h1>
       <p className="mb-6 text-muted">
         같은 진료도 어디서 받느냐로 내는 돈이 달라집니다. 종별 부담률과 산정특례,

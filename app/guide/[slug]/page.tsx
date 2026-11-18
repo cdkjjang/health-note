@@ -11,6 +11,7 @@ import { SITE_NAME, SITE_URL } from "@/lib/site";
 import AdSlot from "@/components/AdSlot";
 import GuideBanner from "@/components/GuideBanner";
 import HubGuideLink from "@/components/HubGuideLink";
+import { jsonLdScript } from "@/lib/json-ld";
 
 // 가이드 본문의 **강조**를 형광펜 강조로 바꾼다.
 // 데이터 파일에서 마크다운 문법으로 강조를 표시해 왔는데 템플릿이 이를 변환하지
@@ -141,9 +142,18 @@ export default async function GuidePage({ params }: Props) {
     <article style={toneStyle}>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }}
       />
+      {/* 맨 앞은 허브(생활반장)로 — 검색으로 노트에 바로 들어온 사람이 다른 주제로 넘어갈 길(2026-11-20) */}
       <nav aria-label="현재 위치" className="mb-3 text-sm text-muted">
+        <a href="https://lifebanjang.com" className="hover:text-accent">
+          생활반장
+        </a>
+        <span aria-hidden="true"> › </span>
+        <Link href="/" className="hover:text-accent">
+          {SITE_NAME}
+        </Link>
+        <span aria-hidden="true"> › </span>
         <Link href="/guide" className="hover:text-accent">
           가이드
         </Link>

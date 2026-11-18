@@ -8,6 +8,7 @@ import CheckupCalculator from "@/components/CheckupCalculator";
 import AdSlot from "@/components/AdSlot";
 import CalcNotes from "@/components/CalcNotes";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
+import { jsonLdScript } from "@/lib/json-ld";
 
 export const metadata: Metadata = {
   title: "건강검진 대상자 조회 — 출생연도 홀짝으로 올해·내년 확인",
@@ -63,7 +64,7 @@ export default function CheckupPage() {
 
   return (
     <div>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }} />
       <h1 className="mb-2 text-2xl font-extrabold">건강검진 대상 조회</h1>
       <p className="mb-6 text-muted">
         출생연도와 성별을 넣으면 올해 받을 수 있는 일반건강검진과 암검진을 판정합니다. 내년 대상인지도 골라서 볼 수 있습니다.

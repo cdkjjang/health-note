@@ -8,6 +8,7 @@ import DependentCalculator from "@/components/DependentCalculator";
 import AdSlot from "@/components/AdSlot";
 import CalcNotes from "@/components/CalcNotes";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
+import { jsonLdScript } from "@/lib/json-ld";
 
 export const metadata: Metadata = {
   title: "건강보험 피부양자 자격 조회 — 보험료 0원의 조건",
@@ -67,7 +68,7 @@ export default function DependentPage() {
 
   return (
     <div>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }} />
       <h1 className="mb-2 text-2xl font-extrabold">피부양자 자격 판정</h1>
       <p className="mb-6 text-muted">
         보험료가 0원이 되는 자격입니다. 부양·소득·재산 세 가지 요건을 하나씩 확인합니다.

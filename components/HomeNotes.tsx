@@ -2,6 +2,7 @@
 // 홈은 방문자가 처음 보는 화면인데 도구 카드만 있으면 이 사이트가 무엇을 근거로
 // 어떻게 만들어졌는지 알 수 없다. FAQPage 구조화 데이터도 여기서 함께 출력한다.
 import Link from "next/link";
+import { jsonLdScript } from "@/lib/json-ld";
 
 export interface HomeScenario {
   /** 방문자가 처한 상황 */
@@ -49,7 +50,7 @@ export default function HomeNotes({
     <div className="mt-12 space-y-12">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(faqJsonLd) }}
       />
 
       <section>

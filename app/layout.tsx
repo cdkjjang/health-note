@@ -56,8 +56,11 @@ export default function RootLayout({
         )}
       </head>
       <body className="flex min-h-screen flex-col">
+        <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[100] focus:rounded-lg focus:bg-card focus:px-4 focus:py-2 focus:font-bold focus:shadow">
+          본문 바로가기
+        </a>
         <Header />
-        <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-8">
+        <main id="main" className="mx-auto w-full max-w-3xl flex-1 px-4 py-8">
           {children}
         </main>
         <Footer />

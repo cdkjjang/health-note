@@ -43,7 +43,7 @@ export default function TermsPage() {
       <section className="space-y-3">
         <h2 className="text-lg font-bold">3. 광고 게재</h2>
         <p>
-          본 사이트는 Google 애드센스 등 광고를 게재할 수 있으며, 광고 수익으로
+          본 사이트는 Google 애드센스 등 광고와 쿠팡 파트너스 제휴 광고를 게재할 수 있으며, 광고 수익으로
           무료 서비스를 유지합니다. 광고 내용은 광고주가 제공하는 것으로, 본
           사이트가 해당 상품·서비스를 보증하지 않습니다.
         </p>
