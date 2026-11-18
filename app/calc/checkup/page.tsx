@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import CalcGuides from "@/components/CalcGuides";
 import NextStep from "@/components/NextStep";
+import ContextualOffers from "@/components/ContextualOffers";
 import RelatedTools from "@/components/RelatedTools";
 import Link from "next/link";
 import CheckupCalculator from "@/components/CheckupCalculator";
@@ -73,6 +74,8 @@ export default function CheckupPage() {
       <AdSlot slot="checkup-below-tool" />
 
       <NextStep calc="/calc/checkup" />
+
+      <ContextualOffers calc="checkup" />
 
       <section className="mt-10 space-y-4 text-[15px] leading-relaxed">
         <h2 className="text-xl font-bold">출생연도 홀짝이 기준입니다</h2>

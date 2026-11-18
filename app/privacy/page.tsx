@@ -11,7 +11,7 @@ export default function PrivacyPage() {
   return (
     <div className="space-y-6 text-[15px] leading-relaxed">
       <h1 className="text-2xl font-extrabold">개인정보처리방침</h1>
-      <p className="text-sm text-muted">시행일: 2026-07-23 · 최종 개정: 2026-09-10</p>
+      <p className="text-sm text-muted">시행일: 2026-07-23 · 최종 개정: 2026-11-19</p>
 
       <section className="space-y-3">
         <h2 className="text-lg font-bold">1. 수집하는 개인정보</h2>
@@ -56,6 +56,7 @@ export default function PrivacyPage() {
 
       <section className="space-y-3">
         <h2 className="text-lg font-bold">4. 문의</h2>
+        <p>개인정보 보호책임자: 운영자 (lifebanjang1004@naver.com)</p>
         <p>
           개인정보 관련 문의는{" "}
           <a href="mailto:lifebanjang1004@naver.com" className="text-accent underline-offset-4 hover:underline">

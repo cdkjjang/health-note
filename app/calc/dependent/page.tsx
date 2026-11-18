@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import CalcGuides from "@/components/CalcGuides";
 import NextStep from "@/components/NextStep";
+import ContextualOffers from "@/components/ContextualOffers";
 import RelatedTools from "@/components/RelatedTools";
 import Link from "next/link";
 import DependentCalculator from "@/components/DependentCalculator";
@@ -77,6 +78,8 @@ export default function DependentPage() {
       <AdSlot slot="dependent-below-tool" />
 
       <NextStep calc="/calc/dependent" />
+
+      <ContextualOffers calc="dependent" />
 
       <section className="mt-10 space-y-4 text-[15px] leading-relaxed">
         <h2 className="text-xl font-bold">보험료 0원, 그런데 요건이 계속 좁아졌습니다</h2>
